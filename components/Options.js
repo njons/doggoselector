@@ -3,8 +3,7 @@ import { render } from "react-dom";
 
 class Options extends React.Component {
   render() {
-    console.log("this is breed state: ", this.props.data);
-    return <option className="option" />;
+    return <option className="option">{this.props.breed}</option>;
   }
 }
 
