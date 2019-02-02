@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/njons/doggoselector/issues"
   },
-  "homepage": "https://github.com/njons/doggoselector#readme"
+  "homepage": "https://github.com/njons/doggoselector#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3"
+  }
 }
