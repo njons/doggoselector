@@ -45,3 +45,8 @@ body {
 
 .option {
 }
+
+img {
+  height: 100%;
+  margin: auto;
+}
