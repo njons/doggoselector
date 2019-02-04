@@ -38,7 +38,6 @@ class App extends React.Component {
         imageUrl: `https://dog.ceo/api/breed/${breed}/images/random`
       },
       () => {
-        console.log(this.state.imageUrl, "imgUrl");
         this.imageReq();
       }
     );
