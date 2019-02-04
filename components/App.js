@@ -12,7 +12,7 @@ import Selector from "./Selector.js";
 class App extends React.Component {
   state = {
     breeds: [],
-    imageUrl: "",
+    imageUrl: "404",
     image: []
   };
 
@@ -33,15 +33,21 @@ class App extends React.Component {
   generateUrl = breed => {
     console.log("workin");
     console.log(breed);
-    this.setState({
-      imageUrl: `https://dog.ceo/api/breed/${breed}/images/random`
-    });
-    this.imageReq();
+    this.setState(
+      {
+        imageUrl: `https://dog.ceo/api/breed/${breed}/images/random`
+      },
+      () => {
+        console.log(this.state.imageUrl, "imgUrl");
+        this.imageReq();
+      }
+    );
   };
 
   imageReq = () => {
     // console.log("in generateURL", this.state.imageUrl);
     console.log("fetchin data");
+    console.log(this.state.imageUrl);
     fetch(this.state.imageUrl)
       .then(res => res.json())
       .then(data => {
@@ -53,8 +59,6 @@ class App extends React.Component {
         console.log(`Looks like there was an issue:`, error);
       });
   };
-
-  perfomSearch = () => {};
 
   render() {
     /* put JSX that you want to render in here */
