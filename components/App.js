@@ -4,73 +4,59 @@ import styled from "styled-components";
 import Header from "./Header.js";
 import Selector from "./Selector.js";
 
-/*
-  1. Make xhr requests in the top level componetent to let it be aware of the entire app as it renders its children, it's not good practie to couple the data too closely to the view and it increases the re-usability of the data
-  2. Pass the data a down to the relevant child
-*/
-
 class App extends React.Component {
   state = {
     breeds: [],
-    imageUrl: "404",
+    imageUrl: "",
     image: []
   };
 
   componentDidMount() {
-    // /* At this point in the component lifecycle this component has a DOM representation, so this is a good point to make an API call*/
-    fetch("https://dog.ceo/api/breeds/list")
-      .then(res => res.json())
-      .then(data => {
-        // console.log("this is the data from the API: ", data.message);
-        /* set the new state of the empty breeds array */
-        this.setState({ breeds: data.message });
-      })
+    Promise.all([
+      // fetch the list of dog breeds and a random image of an affenpinscher (this will always be the first selected)
+      fetch("https://dog.ceo/api/breeds/list"),
+      fetch("https://dog.ceo/api/breed/affenpinscher/images/random")
+    ])
+      .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+      .then(data =>
+        this.setState({
+          breeds: data[0].message,
+          image: data[1].message
+        })
+      )
       .catch(error => {
         console.log(`Looks like there was an issue:`, error);
       });
   }
 
-  generateUrl = breed => {
-    console.log("workin");
-    console.log(breed);
+  imageReq = breed => {
+    // return the clicked breed and insert it into the image url
     this.setState(
       {
         imageUrl: `https://dog.ceo/api/breed/${breed}/images/random`
       },
       () => {
-        this.imageReq();
+        // fetch an image using the contructed url and change whats in image
+        fetch(this.state.imageUrl)
+          .then(res => res.json())
+          .then(data => {
+            this.setState({ image: data.message });
+          })
+          .catch(error => {
+            console.log(`Looks like there was an issue:`, error);
+          });
       }
     );
   };
 
-  imageReq = () => {
-    // console.log("in generateURL", this.state.imageUrl);
-    console.log("fetchin data");
-    console.log(this.state.imageUrl);
-    fetch(this.state.imageUrl)
-      .then(res => res.json())
-      .then(data => {
-        console.log("this is the data from the API: ", data.message);
-        /* set the new state of the empty breeds array */
-        this.setState({ image: data.message });
-      })
-      .catch(error => {
-        console.log(`Looks like there was an issue:`, error);
-      });
-  };
-
   render() {
-    /* put JSX that you want to render in here */
     return (
-      /* React.Fragment lets you to list components without having to create all the surrounding html/JSX tags */
-      <React.Fragment>
-        <div className="container">
-          <Header />
-          {/* the breeds data needs to be passed down to the Selector and Options compontents */}
-          <Selector data={this.state.breeds} constructUrl={this.generateUrl} />
-          <img src={this.state.image} />
-        </div>
-      </React.Fragment>
+      <div className="container">
+        <Header />
+        {/* the breeds data needs to be passed down to the Selector and Options compontents */}
+        <Selector data={this.state.breeds} getImg={this.imageReq} />
+        <img src={this.state.image} />
+      </div>
     );
   }
 }

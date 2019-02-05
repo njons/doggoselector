@@ -13,7 +13,7 @@ class Selector extends React.Component {
       <div>
         <select
           className="selector"
-          onChange={ev => this.props.constructUrl(ev.target.value)}
+          onChange={ev => this.props.getImg(ev.target.value)}
         >
           {breeds}
         </select>
