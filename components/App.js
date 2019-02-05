@@ -3,6 +3,33 @@ import { render } from "react-dom";
 import styled from "styled-components";
 import Header from "./Header.js";
 import Selector from "./Selector.js";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: darkseagreen;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: (100vh - 40px);
+    width: 100vw;
+    display: flex;
+    padding: 20px;
+    letter-spacing: 2px;
+  }
+
+  #root {
+    height: calc(100% - 60px);
+    width: calc(100% - 40px);
+  }
+
+`;
 
 const Container = styled.div`
   display: flex;
@@ -64,12 +91,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container className="container">
-        <Header />
-        {/* the breeds data needs to be passed down to the Selector and Options compontents */}
-        <Selector data={this.state.breeds} getImg={this.imageReq} />
-        <Image src={this.state.image} />
-      </Container>
+      <React.Fragment>
+        <GlobalStyle />
+        <Container className="container">
+          <Header />
+          {/* the breeds data needs to be passed down to the Selector and Options compontents */}
+          <Selector data={this.state.breeds} getImg={this.imageReq} />
+          <Image src={this.state.image} />
+        </Container>
+      </React.Fragment>
     );
   }
 }
