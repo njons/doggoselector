@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import styled from "styled-components";
 
 class Options extends React.Component {
   render() {

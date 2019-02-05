@@ -4,6 +4,19 @@ import styled from "styled-components";
 import Header from "./Header.js";
 import Selector from "./Selector.js";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  height: 80vh;
+  width: auto;
+  margin: auto;
+  padding: 2% 0;
+`;
+
 class App extends React.Component {
   state = {
     breeds: [],
@@ -51,12 +64,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <Container className="container">
         <Header />
         {/* the breeds data needs to be passed down to the Selector and Options compontents */}
         <Selector data={this.state.breeds} getImg={this.imageReq} />
-        <img src={this.state.image} />
-      </div>
+        <Image src={this.state.image} />
+      </Container>
     );
   }
 }
