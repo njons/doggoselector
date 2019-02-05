@@ -8,7 +8,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header">
-        <h1 className="title">Select a doggo below</h1>
+        <h1 className="title">Select a doggo breed</h1>
         {/* put JSX that you want to render in here*/}
       </div>
     );

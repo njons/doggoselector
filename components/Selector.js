@@ -10,7 +10,7 @@ class Selector extends React.Component {
     let breeds = results.map((breed, i) => <Options breed={breed} key={i} />);
 
     return (
-      <div>
+      <div className="select-container">
         <select
           className="selector"
           onChange={ev => this.props.getImg(ev.target.value)}
